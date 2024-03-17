@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { connectDb } from "./database/mongodb";
 import { eventRoute } from "./routes/event";
+import { answerRoute } from "./routes/answer";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(
   })
 );
 app.use(eventRoute);
+app.use(answerRoute);
 
 app.listen(port, () => {
   console.log(`Server is IN Fire at http://localhost:${port}`);
