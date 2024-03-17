@@ -13,6 +13,13 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  participants: [String],
+  declined: {
+    type: [String],
+  },
+  maybe: {
+    type: [String],
+  },
 });
 
 export const Event = mongoose.model("Event", eventSchema);
