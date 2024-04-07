@@ -4,6 +4,12 @@ import { Event } from "../models/event.model";
 
 export const eventRoute = Router();
 
+eventRoute.get("/event", (req: Request, res: Response) => {
+  Event.find({}, { name: true, _id: true, startDate: true, endDate: true })
+    .then((events) => res.json(events))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 eventRoute.get("/event/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
 
@@ -13,20 +19,31 @@ eventRoute.get("/event/:id", async (req: Request, res: Response) => {
 });
 
 eventRoute.post("/event", (req: Request, res: Response) => {
-  const name = req.body.name;
-  const startDate = Date.parse(req.body.startDate);
-  const endDate = Date.parse(req.body.endDate);
+  try {
+    console.log(req.body);
+    const {
+      name,
+      startDate,
+      endDate,
+      description,
+      avecCount,
+      invitationCount,
+    } = req.body;
 
-  const newEvent = new Event({
-    name,
-    startDate,
-    endDate,
-  });
+    const newEvent = new Event({
+      name,
+      startDate: Date.parse(startDate),
+      endDate: Date.parse(endDate),
+      description,
+      avecCount,
+      invitationCount,
+      location,
+    });
 
-  newEvent
-    .save()
-    .then(() => res.json("Event added!"))
-    .catch((err) => res.status(400).json("Error: " + err));
+    newEvent.save();
 
-  return res.status(201).send("Event added!");
+    return res.status(201).send("Event added!");
+  } catch (error) {
+    return res.status(500).send("Error: " + error);
+  }
 });

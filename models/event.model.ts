@@ -13,6 +13,10 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  location: String,
+  description: String,
+  invitationCount: Number,
+  avecCount: Number,
   participants: [String],
   declined: {
     type: [String],
