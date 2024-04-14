@@ -23,17 +23,18 @@ eventRoute.post("/event", (req: Request, res: Response) => {
     console.log(req.body);
     const {
       name,
-      startDate,
-      endDate,
+      start,
+      end,
       description,
       avecCount,
       invitationCount,
+      location,
     } = req.body;
 
     const newEvent = new Event({
       name,
-      startDate: Date.parse(startDate),
-      endDate: Date.parse(endDate),
+      startDate: start,
+      endDate: end,
       description,
       avecCount,
       invitationCount,
@@ -42,8 +43,9 @@ eventRoute.post("/event", (req: Request, res: Response) => {
 
     newEvent.save();
 
-    return res.status(201).send("Event added!");
+    return res.status(201).json({ id: newEvent._id });
   } catch (error) {
+    console.error(error);
     return res.status(500).send("Error: " + error);
   }
 });
